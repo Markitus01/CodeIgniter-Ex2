@@ -15,19 +15,26 @@ class Empleats extends CI_Controller
 
         if (isset($_POST["enviar"]))
         {
-            //Podem fer l'insert així:
-            $this->emp->insertEmp(array(
-                "nom" => $this->input->post("nom"),
-                "dpt" => $this->input->post("dpt"),
-            ));
+            $this->form_validation->set_rules('nom', 'Nom usuari', 'required', array('required' => 'Has de escollir un %s.'));
+            $this->form_validation->set_rules('dpt', 'Departament', 'callback_dpt_check');
 
-            // o així: (qualsevol de les dues formes es correcte, amb la d'amunt estalviem un parell de línies)
-            // $emp = array(
-            //     "nom" => $this->input->post("nom"),
-            //     "dpt" => $this->input->post("dpt"),
-            // );
+            if ($this->form_validation->run() == TRUE)
+            {
+                //Podem fer l'insert així:
+                $this->emp->insertEmp(array(
+                    "nom" => $this->input->post("nom"),
+                    "dpt" => $this->input->post("dpt"),
+                ));
+                redirect("Empleats/index");
 
-            // $this->emp->insertEmp($emp);
+                // o així: (qualsevol de les dues formes es correcte, amb la d'amunt estalviem un parell de línies)
+                // $emp = array(
+                //     "nom" => $this->input->post("nom"),
+                //     "dpt" => $this->input->post("dpt"),
+                // );
+
+                // $this->emp->insertEmp($emp);
+            }
         }
 
         $data = array(
@@ -37,6 +44,25 @@ class Empleats extends CI_Controller
         );
 
         $this->load->view("Empleats/index", $data);
+    }
+
+    public function dpt_check($str)
+    {
+        if ($str == 0)
+        {
+            $this->form_validation->set_message('dpt_check', 'Cal seleccionar un dpt vàlid');
+            return false;
+        }
+
+        return true;
+    }
+
+    public function eliminarEmp($emp_id)
+    {
+        $this->load->model("emp");
+        $this->emp->eliminarEmp($emp_id);
+
+        redirect('Empleats/index');
     }
 
 //     public function add()

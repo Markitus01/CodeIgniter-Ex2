@@ -18,5 +18,11 @@ class Emp extends CI_Model
     {
         $this->db->insert($this->table, $data);
     }
+
+    public function eliminarEmp($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('emp');
+    }
 }
 ?>

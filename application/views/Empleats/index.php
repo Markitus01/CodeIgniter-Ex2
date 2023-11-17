@@ -77,6 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>ID</th>
                             <th>NOM</th>
                             <th>DPT</th>
+                            <th>CALVO</th>
                         </tr>
                         <?php 
                             foreach ($emps as $emp)
@@ -85,23 +86,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td> $emp->emp_id </td>
                                         <td> $emp->emp_nom </td>
                                         <td> $emp->dpt_nom</td>
+                                        <td> <a href='". site_url('Empleats/eliminarEmp/' . $emp->emp_id) ."'>Elimina</a>
                                       </tr>";
                             }
                         ?>
                     </table>
                 </code>
+                
                 <hr>
+                <?php echo validation_errors(); ?>
+
                 <h1>Nou Empleat:</h1>
                 <form name="f" method="post" action="<?php site_url('Empleats/index') ?>">
                     Nom: <br/>
-                    <input type="text" name="nom" placeholder="Nom"/> <br/> <br/>
+                    <input type="text" name="nom" placeholder="Nom" value="<?php echo set_value('nom') ?>"/> <br/> <br/>
 
                     Departament: <br/>
                     <select name="dpt">
+                        <option value="0">Escolleix dpt</option>
                         <?php 
                             foreach ($dpts as $dpt)
                             {
-                                echo "<option value='" . $dpt->id . "'>" . $dpt->nom . "</option>\n";
+                                $selected = "";
+
+                                if ($dpt->id == set_value('dpt'))
+                                    $selected = " selected ";
+
+                                echo "<option value='" . $dpt->id . "'" . $selected . ">" . $dpt->nom . "</option>\n";
                             }
                         ?>
                     </select> <br/> <br/>
