@@ -64,18 +64,5 @@ class Empleats extends CI_Controller
 
         redirect('Empleats/index');
     }
-
-//     public function add()
-//     {
-//         $nom = $this->input->post("name");
-//         $dpt = $this->input->post("option");
-
-//         $data = array(
-//             "nom" => $nom,
-//             "dpt" => $dpt
-//         );
-
-//         $this->emp->insertEmp($data);
-//     }
 }
 ?>
